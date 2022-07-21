@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<div th:replace="fragments::navFragment">
+
+</div>
+
+
+<br><br>
+<div class="container">
+    <form py-5 th:method="POST" th:action="@{/profile/editProfile/}">
+        <div class="form-row">
+            <div class="col">
+                <label for="name" >Name: </label>
+                <input type="text" id="name" disabled class="form-control" th:value="${user.getName()}">
+            </div>
+            <div class="col">
+                <label for="lastName" >Surname: </label>
+                <input type="text" disabled class="form-control" id="lastName" th:value="${user.getLastName()}">
+
+            </div>
+        </div>
+
+        <div class="form-row py-5">
+            <div class="col">
+                <label for="phoneNumber" >Phone: </label>
+                <input type="text" disabled class="form-control" name="phoneNumber" id="phoneNumber" th:value="${user.getPhoneNumber()}">
+
+            </div>
+            <div class="col">
+                <label for="address">Address: </label>
+                <input type="text" disabled class="form-control" name="address" id="address" th:value="${user.getAddress()}">
+
+            </div>
+        </div>
+
+    </form>
+
+    <div class="row">
+        <div class="col">
+            <label for="email">Email Address</label>
+    <input class="form-control" id="email" type="text" th:value="${user.getEmail()}" readonly>
+        </div>
+    </div>
+    <br>
+    <a class="btn btn-info" th:href="@{/profile/editProfile}">Edit Profile</a> <br> <br>
+</div>
+<div th:replace="fragments :: footerFragment"></div>
+
+
+</body>
+</html>
