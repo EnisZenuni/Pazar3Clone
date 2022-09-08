@@ -44,7 +44,7 @@ public String Register(HttpServletRequest request,
 ) {
 
         try {
-            this.authService.register(name,lastname,username,password,repeatPassword,email,address,phoneNumber);
+            this.userService.register(name,lastname,username,password,repeatPassword,email,address,phoneNumber);
             return "redirect:/login";
         } catch (InvalidArgumentsException | PasswordsDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();

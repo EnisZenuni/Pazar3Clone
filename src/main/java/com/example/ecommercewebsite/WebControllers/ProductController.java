@@ -41,11 +41,14 @@ public class ProductController {
 
     @GetMapping("/add-product")
     public String addProductView(Model model, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) userService.loadUserByUsername(request.getRemoteUser());
+        //if (user == null) return "redirect:/login";
         List<Category> categories = this.categoryService.findAll();
+        String username = (String) request.getRemoteUser();
+        model.addAttribute("username",username);
         model.addAttribute("user",user);
         model.addAttribute("categories",categories);
-        System.out.println(categories.toString());
+
         return "add-product";
     }
     @PostMapping("/add-product")
@@ -55,7 +58,10 @@ public class ProductController {
         //productName,productCity,productPrice,productDescription,productImage,productRating,ProductQuantity,category
         //save(String productName,String productCity, Double productPrice,String productDescription, String productImage, Integer productRating, Integer ProductQuantity, Integer categoryId) {
         int productQuantity = 1;
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) userService.loadUserByUsername(request.getRemoteUser());
+
+
+
         this.productService.save(ProductName,ProductCity,ProductPrice,ProductDescription,ProductImage,ProductRating,productQuantity,ProductCategory,request);
         return "redirect:/products";
 
@@ -83,8 +89,12 @@ public class ProductController {
     @GetMapping("/myShop")
     public String ProductsByProfileView(Model model,HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        List<Product> filterByUsername = this.productService.findAllByUsername(user.getUsername());
+
+        //if(user==null) return "login";
+        String username = (String) request.getRemoteUser();
+        List<Product> filterByUsername = this.productService.findAllByUsername(username);
         model.addAttribute("products",filterByUsername);
+        model.addAttribute("username",username);
         model.addAttribute("user",user);
         return "shop";
       }

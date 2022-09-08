@@ -17,12 +17,27 @@
 
 
 <br><br>
-<div class="container">
+
+
+
+<div class="container" th:if="${#request.getRemoteUser() == null}">
+    <h4>
+        Access Denied
+    </h4>
+    <h2><i class="fa-solid fa-shop-lock"></i></h2>
+    <p>For security reasons to access this and other resources provided by our site.<br>
+    Please <a  class="link-info" th:href="@{/register}">Sign Up</a> <br> or if you already have an account Please <a  class="link-info" th:href="@{/login} ">login</a></p>
+</div>
+
+<br> <br> <br>
+
+
+<div class="container" th:if="${#request.getRemoteUser() != null}">
     <form py-5 th:method="POST" th:action="@{/profile/editProfile/}">
         <div class="form-row">
             <div class="col">
                 <label for="name" >Name: </label>
-                <input type="text" id="name" disabled class="form-control" th:value="${user.getName()}">
+                <input type="text" id="name" disabled class="form-control" th:value="${username}">
             </div>
             <div class="col">
                 <label for="lastName" >Surname: </label>
@@ -55,6 +70,9 @@
     <br>
     <a class="btn btn-info" th:href="@{/profile/editProfile}">Edit Profile</a> <br> <br>
 </div>
+
+
+
 <div th:replace="fragments :: footerFragment"></div>
 
 

@@ -5,9 +5,10 @@ import com.example.ecommercewebsite.Model.Exceptions.InvalidArgumentsException;
 import com.example.ecommercewebsite.Model.Exceptions.InvalidUserCredentialsException;
 import com.example.ecommercewebsite.Model.Exceptions.UsernameAlreadyExistsException;
 import com.example.ecommercewebsite.Model.User;
-import com.example.ecommercewebsite.Repository.impl.UserInMemoryRepository;
 import com.example.ecommercewebsite.Repository.jpa.UserRepository;
 import com.example.ecommercewebsite.Service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,16 +18,23 @@ public class AuthServiceImpl implements AuthService {
 
 
     private final UserRepository userInMemoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(UserRepository userInMemoryRepository) {
+    public AuthServiceImpl(UserRepository userInMemoryRepository, PasswordEncoder passwordEncoder) {
         this.userInMemoryRepository = userInMemoryRepository;
+
+        this.passwordEncoder = passwordEncoder;
     }
 
+
+    // ==================> TODO encode o tu ta prish <==================== //
     @Override
     public User login(String username, String password) {
         if(username.isEmpty()|| password.isEmpty())
             throw new InvalidArgumentsException();
-        return userInMemoryRepository.findUserByUsernameAndPassword(username,password).orElseThrow(InvalidUserCredentialsException::new);
+
+        return userInMemoryRepository.findUserByUsernameAndPassword(username,passwordEncoder.encode(password)).orElseThrow(InvalidUserCredentialsException::new);
+
     }
 
     @Override
@@ -38,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
                 !this.userInMemoryRepository.findUserByUsername(username).isEmpty())
             throw new UsernameAlreadyExistsException(username);
 
-        User newUser = new User(email,name,lastName,Address,username,password,phoneNumber,new ArrayList<>());
+        User newUser = new User(email,name,lastName,Address,username,passwordEncoder.encode(password),phoneNumber,new ArrayList<>());
         return  userInMemoryRepository.save(newUser);
     }
 }

@@ -23,15 +23,20 @@ public class ProfileController {
 
     @GetMapping
     public String showProfileView(HttpServletRequest request, Model model) {
-        User user = (User) request.getSession().getAttribute("user");
+        //User user = (User) request.getSession().getAttribute("user");
+        User user = (User) userService.loadUserByUsername(request.getRemoteUser());
+        String username = (String) request.getRemoteUser();
         model.addAttribute("user",user);
+        model.addAttribute("username",username);
         return "profile";
     }
 
     @GetMapping("/editProfile")
     public String showEditProfileView(HttpServletRequest request, Model model) {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) userService.loadUserByUsername(request.getRemoteUser());
+        String username = (String) request.getRemoteUser();
         model.addAttribute("user",user);
+        model.addAttribute("username",username);
         return "profileEdit";
     }
 
@@ -41,7 +46,7 @@ public class ProfileController {
                               @RequestParam(required=false) String LastName,
                               @RequestParam(required=false) String phoneNumber,
                               @RequestParam(required=false) String address) {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) userService.loadUserByUsername(request.getRemoteUser());
 
         // TODO MAYBE ADD A FUNCTION IN THE SERVICE
          int changedFlag = 0;

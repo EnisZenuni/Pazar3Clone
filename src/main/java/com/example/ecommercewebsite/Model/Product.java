@@ -30,6 +30,8 @@ public class Product {
     @ManyToOne
     public User user;
 
+    @ManyToMany
+    public List<ShoppingCart> shoppingCarts;
 
     public Product(String productName, String productCity, Double productPrice, String productDescription, String productImage, Integer productRating, Integer productQuantity, Category category,User user) {
         this.productName = productName;

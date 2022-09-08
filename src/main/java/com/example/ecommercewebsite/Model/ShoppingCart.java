@@ -21,6 +21,7 @@ public class ShoppingCart {
 
 
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public User user;
 
     @ManyToMany
